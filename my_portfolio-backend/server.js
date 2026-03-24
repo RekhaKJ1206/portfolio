@@ -12,10 +12,15 @@ const PORT = process.env.PORT || 5000;
 app.use(bodyParser.json());
 app.use(cors());
 
+// HEALTH CHECK ROUTE (for Render to verify app is running)
+app.get('/', (req, res) => {
+    res.status(200).json({ message: 'Server is running' });
+});
+
 // CONNECT TO MONGODB
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URI || '')
     .then(() => console.log('MongoDB connected'))
-    .catch(err => console.log(err));
+    .catch(err => console.log('MongoDB connection error:', err));
 
 // ROUTE TO SAVE CONTACT
 app.post('/api/contact', async (req, res) => {
