@@ -13,3 +13,17 @@ jobs:
       # 1. Checkout code
       - name: Checkout code
         uses: actions/checkout@v3
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Deploy to Render using deploy hook
+      - name: Deploy to production
+        run: |
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
