@@ -100,7 +100,21 @@ process.on('SIGTERM', () => {
     process.exit(0);
 });
 
+// Handle uncaught errors to prevent app exit
+process.on('uncaughtException', (err) => {
+    console.error('Uncaught Exception:', err);
+    // Server continues running
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+    // Server continues running
+});
+
 // START SERVER
 const server = app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
 });
+
+// Set server timeout to prevent early exits
+server.timeout = 120000;

@@ -1,1 +1,1 @@
-web: node my_portfolio-backend/server.js
+web: npm start
