@@ -43,9 +43,17 @@ app.get('/', (req, res) => {
 });
 
 // CONNECT TO MONGODB
-mongoose.connect(process.env.MONGO_URI || '')
+const mongoUri = process.env.MONGO_URI;
+if (!mongoUri || (!mongoUri.startsWith('mongodb://') && !mongoUri.startsWith('mongodb+srv://'))) {
+    console.warn('⚠️ MongoDB URI is missing or invalid. Set MONGO_URI to mongodb://... or mongodb+srv://...');
+} else {
+    mongoose.connect(mongoUri, {
+        serverSelectionTimeoutMS: 5000,
+        connectTimeoutMS: 10000
+    })
     .then(() => console.log('MongoDB connected'))
-    .catch(err => console.log('MongoDB connection error:', err));
+    .catch(err => console.error('MongoDB connection error:', err));
+}
 
 // ROUTE TO SAVE CONTACT
 app.post('/api/contact', async (req, res) => {
