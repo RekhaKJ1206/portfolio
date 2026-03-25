@@ -32,4 +32,4 @@ jobs:
       # 2. Deploy to Render using deploy hook
       - name: Deploy to production
         run: |
-          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
+          curl -X POST "https://api.render.com/deploy/srv-d71ir1ggjchc739j4kog?key=gFSQsZlYfTI"
